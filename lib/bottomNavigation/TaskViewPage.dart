@@ -16,11 +16,17 @@ class TaskViewPage extends StatefulWidget {
 
 class _TaskViewPage extends State<TaskViewPage> {
   List categoryList = [];
-
+  late Future taskCategoryFuture=Future(() => null);
   @override
   void initState() {
     super.initState();
-    getTaskCategoryData();
+    taskCategoryFuture = getTaskCategoryData(); // Initialize the future here
+  }
+
+  Future<void> _refreshData() async {
+    setState(() {
+      taskCategoryFuture = getTaskCategoryData(); // Refresh the future here
+    });
   }
 
   @override
@@ -32,16 +38,39 @@ class _TaskViewPage extends State<TaskViewPage> {
             style: TextStyle(color: Colors.white, fontSize: 18)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: ListView.builder(
-          itemCount: categoryList.length,
-          itemBuilder: (context, index) {
-            final categoryName = categoryList[index] as Map;
 
-            return ListTile(
-                title: Text(categoryName['title'].toString()),
-                subtitle: Text(categoryName['text'].toString())
-            );
-          }),
+      body: RefreshIndicator(
+        onRefresh: _refreshData,
+        child: FutureBuilder(
+          future: taskCategoryFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text("Error: ${snapshot.error}"),
+              );
+            } else {
+              return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Number of columns
+                  crossAxisSpacing: 8.0, // Spacing between columns
+                  mainAxisSpacing: 8.0, // Spacing between rows
+                ),
+                itemCount: categoryList.length,
+                itemBuilder: (context, index) {
+                  return _buildGridItem(categoryList[index]);
+                },
+              );
+            }
+          },
+        ),
+      ),
+
+
+
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: Colors.blue,
           onPressed: () {
@@ -62,7 +91,7 @@ class _TaskViewPage extends State<TaskViewPage> {
 
     final Map<String, dynamic> responseData = json.decode(response);
 
-// Now you can access the status parameter
+    // Now you can access the status parameter
     final cardResponse = responseData['cardResponse'];
     if (cardResponse != null) {
       setState(() {
@@ -102,4 +131,54 @@ class _TaskViewPage extends State<TaskViewPage> {
 // Show the customized SnackBar
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+  Widget _buildGridItem(Map<String, dynamic> categoryName) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: SizedBox(
+        width: 100.0, // Set the width of the card
+        height: 50.0, // Set the height of the card
+        child: Card(
+          elevation: 5.0, // Card elevation
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0), // Card border radius
+          ),
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+              child: Center(
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(0), // Remove ListTile default padding
+                  title: Text(
+                    categoryName['title'].toString(),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, // Customize title font weight
+                      fontSize: 14.0,
+                      color: Colors.indigo// Adjust font size
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      categoryName['text'].toString(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold, // Customize subtitle font style
+                        fontSize: 18.0, // Adjust font size
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  onTap: () {
+                    // Add your onTap functionality here
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
 }
+

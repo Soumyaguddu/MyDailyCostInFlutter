@@ -6,6 +6,9 @@
     <application
         android:label="my_flutter"
         android:name="${applicationName}"
+        android:allowTaskReparenting="false"
+        android:hardwareAccelerated="true"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

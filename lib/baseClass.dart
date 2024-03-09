@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-const String baseUrl = 'https://dev-api.instantxfer.com/api/v1';
+const String baseUrl = 'https://api.instantxfer.com/api/v1';
 const String baseNewUrl = 'https://nodeapi-b20m.onrender.com/api/v1';
+const String baseStageNewUrl = 'http://localhost:3001/api/v1';
 
 class BaseClient {
   var client = http.Client();
