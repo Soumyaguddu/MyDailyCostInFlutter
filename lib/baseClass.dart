@@ -24,6 +24,28 @@ class BaseClient {
 
 
   //POST
+  Future<dynamic> postExpenses(String api, dynamic object) async {
+    var url = Uri.parse(baseNewUrl + api);
+    if (kDebugMode) {
+      print(url);
+    }
+    var expensesData = json.encode(object);
+    if (kDebugMode) {
+      print(expensesData);
+    }
+    var headers = {
+      'Content-Type': 'application/json',
+    };
+
+    var response = await client.post(url, body: expensesData, headers: headers);
+    if (kDebugMode) {
+      print(response.statusCode);
+    }
+    if (kDebugMode) {
+      print(response.body);
+    }
+    return response.body;
+  }
   Future<dynamic> post(String api, dynamic object) async {
     var url = Uri.parse(baseUrl + api);
     if (kDebugMode) {

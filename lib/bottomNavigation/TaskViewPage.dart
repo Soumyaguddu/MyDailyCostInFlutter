@@ -133,48 +133,38 @@ class _TaskViewPage extends State<TaskViewPage> {
   }
   Widget _buildGridItem(Map<String, dynamic> categoryName) {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: SizedBox(
-        width: 100.0, // Set the width of the card
-        height: 50.0, // Set the height of the card
-        child: Card(
-          elevation: 5.0, // Card elevation
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0), // Card border radius
-          ),
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.all(8.0), // Adjust padding as needed
-              child: Center(
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(0), // Remove ListTile default padding
-                  title: Text(
-                    categoryName['title'].toString(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, // Customize title font weight
-                      fontSize: 14.0,
-                      color: Colors.indigo// Adjust font size
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      categoryName['text'].toString(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold, // Customize subtitle font style
-                        fontSize: 18.0, // Adjust font size
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  onTap: () {
-                    // Add your onTap functionality here
-                  },
-                ),
-              ),
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          title: Text(
+            categoryName['title'].toString(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+
+              fontSize: 15.0,
+              color: Colors.black87,
             ),
           ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              categoryName['text'].toString(),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: Colors.blue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          onTap: () {
+            // Add your onTap functionality here
+          },
         ),
       ),
     );

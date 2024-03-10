@@ -52,6 +52,7 @@ dev_dependencies:
   local_auth: ^2.1.8
   http: ^1.2.1
   convex_bottom_bar: ^3.2.0
+  intl: ^0.17.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -3,6 +3,8 @@ import 'package:my_flutter/pin_code_widget.dart';
 import 'package:my_flutter/splash_new_screen.dart';
 import 'package:my_flutter/splash_screen.dart';
 
+import 'navigationBar.dart';
+
 void main()
 {
   runApp(MyApp());
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.brown),
       darkTheme: ThemeData.light(),
-      home:const PinCodeWidget(),
+      home:const NavigationViewPage(),
     );
   }
 }
